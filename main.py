@@ -10,6 +10,7 @@ import re
 import arrow
 import toml
 from dotenv import load_dotenv
+from sources.models.process import Config
 from sources.scripts import format_json
 from sources.utilities import display
 from sources.utilities import logs
@@ -30,7 +31,12 @@ start_date = arrow.now(os.getenv("TIMEZONE", "Europe/Paris"))
 display.start_info(start_date, "Formatting script")
 
 if __name__ == "__main__":
-    config = toml.load("process.toml")
+    try:
+        config = toml.load("process.toml")
+        Config.model_validate(config)
+    except toml.TomlDecodeError as e:
+        print(f"TOML file is invalid: {e}")
+
     raw_path = pathlib.Path(os.getenv("DATA_RAW_DIR", "data"))
     proc_path = pathlib.Path(os.getenv("DATA_PROCESS_DIR", "process"))
 
