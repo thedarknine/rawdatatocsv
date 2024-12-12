@@ -1,13 +1,14 @@
 """
 Tools to handle raw data
 """
+import re
 
 OPEN_BRACKET = "{\n"
 CLOSE_BRACKET = "\n}"
 COMMA = ","
 
 
-def split_by_line_to_dict(content: str) -> dict:
+def split_by_line(content: str, process: dict) -> dict:
     """
     Split content by line and create a dictionary
 
@@ -18,13 +19,14 @@ def split_by_line_to_dict(content: str) -> dict:
         dict: Dictionary
     """
     content = str.replace(content, '"', "")
-    split_content = content.split("\n")
-    split_dict = {}
-    for line in split_content:
-        split = line.split(":")
-        if len(split) == 2:
-            split_dict[split[0]] = split[1]
-    return split_dict
+    formatted_content = {}
+    if "header_line" in process and process["header_line"]:
+        regex = process["header_regex"]
+        for s in re.split(regex, content):
+            if s.strip() != "":
+                info = s.split("-", 1)
+                formatted_content[info[0]] = info[1]
+    return formatted_content
 
 
 def group_by_first(content: str):

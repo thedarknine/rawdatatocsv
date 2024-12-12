@@ -6,13 +6,13 @@ import os
 import sys
 import pathlib
 import json
-import re
 import arrow
 import toml
 from dotenv import load_dotenv
 from sources.models.process import Config
 from sources.scripts import format_json
 from sources.utilities import display
+from sources.utilities import files
 from sources.utilities import logs
 
 # Load env variables
@@ -39,57 +39,31 @@ if __name__ == "__main__":
 
     raw_path = pathlib.Path(os.getenv("DATA_RAW_DIR", "data"))
     proc_path = pathlib.Path(os.getenv("DATA_PROCESS_DIR", "process"))
+    if not os.path.exists(proc_path):
+        os.makedirs(proc_path)
 
     # Get process config
-    # pprint.pp(config["format_json"])
     for process in config["format_json"]["files"]:
+        tmp_file = os.path.join(proc_path, process["output"])
+
         match process["method"]:
-            case "split_by_line_to_dict":
+            case "split_by_line":
                 display.info(
                     f"Processing {process['filename']} with {process['method']}"
                 )
-                formatted_content = {}
-                with open(
-                    os.path.join(raw_path, process["filename"]),
-                    "rt",
-                    encoding=os.getenv("ENCODING"),
-                ) as inputfile:
-                    content = inputfile.read()
-                    inputfile.close()
-                    if "header_line" in process and process["header_line"]:
-                        regex = process["header_regex"]
-                        for s in re.split(regex, content):
-                            if s.strip() != "":
-                                info = s.split("-", 1)
-                                formatted_content[info[0]] = info[1]
-
-                tmp_file = os.path.join(proc_path, process["output"])
-                if not os.path.exists(proc_path):
-                    os.makedirs(proc_path)
-                with open(tmp_file, "w", encoding=os.getenv("ENCODING")) as outputfile:
-                    outputfile.write(json.dumps(formatted_content, indent=4))
-                    outputfile.close()
+                content = files.get_content(process["filename"], raw_path)
+                if content != "":
+                    formatted_content = format_json.split_by_line(content, process)
+                    files.write(tmp_file, json.dumps(formatted_content, indent=4))
 
             case "group_by_first":
                 display.info(
                     f"Processing {process['filename']} with {process['method']}"
                 )
-                formatted_content = {}
-                with open(
-                    os.path.join(raw_path, process["filename"]),
-                    "rt",
-                    encoding=os.getenv("ENCODING"),
-                ) as inputfile:
-                    content = inputfile.read()
-                    inputfile.close()
+                content = files.get_content(process["filename"], raw_path)
+                if content != "":
                     formatted_content = format_json.group_by_first(content)
-
-                tmp_file = os.path.join(proc_path, process["output"])
-                if not os.path.exists(proc_path):
-                    os.makedirs(proc_path)
-                with open(tmp_file, "w", encoding=os.getenv("ENCODING")) as outputfile:
-                    outputfile.write(json.dumps(formatted_content, indent=4))
-                    outputfile.close()
+                    files.write(tmp_file, json.dumps(formatted_content, indent=4))
 
     # Remove temporatory files
     tmp_path = pathlib.Path(os.getenv("DATA_TMP_DIR", ".tmp"))

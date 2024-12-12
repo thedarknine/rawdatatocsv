@@ -13,7 +13,7 @@ filename = 'app_list_installed.csv'
     header_line = true
     header_regex = '\s+\d+\s*'
     output = "app.json"
-    method = "split_by_line_to_dict"
+    method = "split_by_line"
 
   [[format_json.files]]
     filename = "fr1.csv"
