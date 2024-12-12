@@ -1,0 +1,16 @@
+rawdata;python-3.12
+rawdata;python-dotenv-1.0.1
+rawdata;arrow-1.3.0
+rawdata;rich-13.9.4
+rawdata;pytest-8.3.4
+rawdata;black-24.10.0
+rawdata;pylint-3.3.2
+rawdata;toml-0.10.2
+product;python-3.12
+product;python-dotenv-1.0.1
+product;arrow-1.3.0
+product;rich-13.9.4
+product;pytest-8.3.4
+product;black-24.10.0
+product;pylint-3.3.2
+product;pytest-dotenv-0.5.2
