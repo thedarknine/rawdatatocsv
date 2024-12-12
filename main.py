@@ -10,7 +10,7 @@ import arrow
 import toml
 from dotenv import load_dotenv
 from sources.models.process import Config
-from sources.scripts import format_json
+from sources.scripts import format_json, json_to_csv
 from sources.utilities import display
 from sources.utilities import files
 from sources.utilities import logs
@@ -64,6 +64,24 @@ if __name__ == "__main__":
                 if content != "":
                     formatted_content = format_json.group_by_first(content)
                     files.write(tmp_file, json.dumps(formatted_content, indent=4))
+
+            case "split_by_object":
+                display.info(
+                    f"Processing {process['filename']} with {process['method']}"
+                )
+                content = files.get_content(process["filename"], raw_path)
+                if content != "":
+                    formatted_content = format_json.split_by_object(content)
+                    files.write(tmp_file, formatted_content)
+
+            case _:
+                display.alert(f"Method {process['method']} is not valid")
+                sys.exit(display.alert(f"Method {process['method']} is not valid"))
+
+    if "json_to_csv" in config:
+        data_csv = json_to_csv.compute_data(config["json_to_csv"])
+        csv_path = os.path.join(proc_path, config["json_to_csv"]["output"])
+        files.write_csv(csv_path, data_csv)
 
     # Remove temporatory files
     tmp_path = pathlib.Path(os.getenv("DATA_TMP_DIR", ".tmp"))

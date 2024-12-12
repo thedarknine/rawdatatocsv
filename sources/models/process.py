@@ -13,15 +13,11 @@ class JsonFile(BaseModel):
     method: str
 
 
-class Input(BaseModel):
-    """Input model"""
+class CSVFile(BaseModel):
+    """Csv file model"""
     main_file: str
-    secondary_files: list
-
-
-class Output(BaseModel):
-    """Output model"""
-    filename: str
+    secondary_files: list[str]
+    output: str
 
 
 class FormatJson(BaseModel):
@@ -32,6 +28,5 @@ class FormatJson(BaseModel):
 
 class Config(BaseModel):
     """Config model"""
-    input: Input
-    output: Output
     format_json: FormatJson
+    json_to_csv: CSVFile

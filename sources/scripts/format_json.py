@@ -19,14 +19,22 @@ def split_by_line(content: str, process: dict) -> dict:
         dict: Dictionary
     """
     content = str.replace(content, '"', "")
-    formatted_content = {}
+    json_content = {}
     if "header_line" in process and process["header_line"]:
         regex = process["header_regex"]
         for s in re.split(regex, content):
             if s.strip() != "":
                 info = s.split("-", 1)
-                formatted_content[info[0]] = info[1]
-    return formatted_content
+                json_content[info[0]] = info[1]
+    else:
+        content = str.replace(content, " ", "")
+        split_content = content.split("\n")
+        json_content = {}
+        for line in split_content:
+            info = line.split(":")
+            json_content[info[0]] = info[1]
+            print(info)
+    return json_content
 
 
 def group_by_first(content: str):
@@ -40,16 +48,23 @@ def group_by_first(content: str):
         dict: Dictionary
     """
     split_content = content.split("\n")
-    split_dict = {}
+    json_content = {}
     for line in split_content:
         info = line.split(";")
-        if info[0] not in split_dict:
-            split_dict[info[0]] = {}
+        if info[0] not in json_content:
+            json_content[info[0]] = {}
         # pprint.pp(split)
         if len(info) == 2:
             version = info[1].rsplit("-", 1)
-            split_dict[info[0]][version[0]] = version[1]
-    return split_dict
+            json_content[info[0]][version[0]] = version[1]
+    return json_content
+
+
+def split_by_object(content: str):
+    newcontent = str.replace(content, "\n{", "\": {")
+    newcontent = str.replace(newcontent, "\n}\n", "\n},\n\"")
+    newcontent = "{\n\"" + newcontent + "\n}"
+    return newcontent
 
 
 def add_global_brackets(content):
