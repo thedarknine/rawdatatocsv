@@ -1,0 +1,31 @@
+[input]
+main_file = "app.list"
+secondary_files = ["fr1.list", "fr2.list", "fr3.list"]
+
+[output]
+filename = 'app_list_installed.csv'
+
+[format_json]
+  name = "format_to_json"
+
+  [[format_json.files]]
+    filename = "app.list"
+    header_line = true
+    header_regex = '\s+\d+\s*'
+    output = "app.json"
+    method = "split_by_line_to_dict"
+
+  [[format_json.files]]
+    filename = "fr1.csv"
+    output = "fr1.json"
+    method = "group_by_first"
+
+  [[format_json.files]]
+    filename = "fr2.csv"
+    output = "fr2.json"
+    method = "group_by_first"
+
+  [[format_json.files]]
+    filename = "fr3.csv"
+    output = "fr3.json"
+    method = "group_by_first"
