@@ -1,6 +1,7 @@
 """
 Tools to handle raw data
 """
+
 import re
 
 OPEN_BRACKET = "{\n"
@@ -61,9 +62,18 @@ def group_by_first(content: str):
 
 
 def split_by_object(content: str):
-    newcontent = str.replace(content, "\n{", "\": {")
-    newcontent = str.replace(newcontent, "\n}\n", "\n},\n\"")
-    newcontent = "{\n\"" + newcontent + "\n}"
+    """
+    Split content by object
+
+    Args:
+        content (str): Content to split
+
+    Returns:
+        str: Content with objects
+    """
+    newcontent = str.replace(content, "\n{", '": {')
+    newcontent = str.replace(newcontent, "\n}\n", '\n},\n"')
+    newcontent = '{\n"' + newcontent + "\n}"
     return newcontent
 
 

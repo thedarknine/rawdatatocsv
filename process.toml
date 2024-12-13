@@ -23,25 +23,25 @@
     output = "fr3.json"
     method = "group_by_first"
 
-  [[format_json.files]]
-    filename = "app-0412.list"
-    output = "app-0412.json"
-    method = "split_by_line"
+  # [[format_json.files]]
+  #   filename = "app-0412.list"
+  #   output = "app-0412.json"
+  #   method = "split_by_line"
 
-  [[format_json.files]]
-    filename = "fr1-0412.list"
-    output = "fr1-0412.json"
-    method = "split_by_object"
+  # [[format_json.files]]
+  #   filename = "fr1-0412.list"
+  #   output = "fr1-0412.json"
+  #   method = "split_by_object"
 
-  [[format_json.files]]
-    filename = "fr2-0412.list"
-    output = "fr2-0412.json"
-    method = "split_by_object"
+  # [[format_json.files]]
+  #   filename = "fr2-0412.list"
+  #   output = "fr2-0412.json"
+  #   method = "split_by_object"
 
-  [[format_json.files]]
-    filename = "fr3-0412.list"
-    output = "fr3-0412.json"
-    method = "split_by_object"
+  # [[format_json.files]]
+  #   filename = "fr3-0412.list"
+  #   output = "fr3-0412.json"
+  #   method = "split_by_object"
 
 [json_to_csv]
   name = "json_to_csv"

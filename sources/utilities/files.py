@@ -4,6 +4,9 @@ File utility tools
 
 import os
 import csv
+from sources.utilities import logs
+
+logger = logs.get_logger()
 
 
 def get_content(filename: str, filepath: str) -> str:
@@ -17,15 +20,19 @@ def get_content(filename: str, filepath: str) -> str:
     Returns:
         str: Content of file
     """
-    with open(
-        os.path.join(filepath, filename),
-        "rt",
-        encoding=os.getenv("ENCODING"),
-    ) as inputfile:
-        content = inputfile.read()
-        inputfile.close()
+    try:
+        content = ""
+        with open(
+            os.path.join(filepath, filename),
+            "rt",
+            encoding=os.getenv("ENCODING"),
+        ) as inputfile:
+            content = inputfile.read()
+            inputfile.close()
         return content
-    return ""
+    except FileNotFoundError:
+        logger.error("filename not found: %s", filename)
+        return None
 
 
 def write(filename: str, content: str) -> None:

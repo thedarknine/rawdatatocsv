@@ -16,8 +16,8 @@ install:
 ## Lint code
 cs:
 #pylint --disable=trailing-whitespace app.py
-	poetry run pylint main.py sources/utilities/*.py tests/utilities/*.py
-	poetry run black main.py sources/utilities/*.py tests/utilities/*.py --diff
+	poetry run pylint main.py sources/scripts/*.py sources/utilities/*.py tests/utilities/*.py
+	poetry run black main.py sources/scripts/*.py sources/utilities/*.py tests/utilities/*.py --diff
 #	poetry run pylint app.py utilities/*.py classes/*.py tests/classes/*.py tests/utilities/*.py
 #	poetry run black app.py utilities/*.py classes/*.py tests/classes/*.py tests/utilities/*.py --diff
 
