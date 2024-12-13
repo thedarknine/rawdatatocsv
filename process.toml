@@ -48,3 +48,5 @@
   main_file = "app.json"
   secondary_files = ["fr1.json", "fr2.json", "fr3.json"]
   output = "app_list_installed.csv"
+  display_label = true
+  display_count = true

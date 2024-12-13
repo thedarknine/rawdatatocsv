@@ -2,6 +2,7 @@
 Tools to handle raw data
 """
 
+import json
 import re
 
 OPEN_BRACKET = "{\n"
@@ -69,12 +70,13 @@ def split_by_object(content: str):
         content (str): Content to split
 
     Returns:
-        str: Content with objects
+        dict: Dictionary
     """
-    newcontent = str.replace(content, "\n{", '": {')
-    newcontent = str.replace(newcontent, "\n}\n", '\n},\n"')
-    newcontent = '{\n"' + newcontent + "\n}"
-    return newcontent
+    json_content = str.replace(content, "\n{", '": {')
+    json_content = str.replace(json_content, "\n}\n", '\n},\n"')
+    json_content = '{\n"' + json_content + "\n}"
+
+    return json.loads(json_content)
 
 
 def add_global_brackets(content):

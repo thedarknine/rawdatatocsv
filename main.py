@@ -53,6 +53,11 @@ if __name__ == "__main__":
                     display.info(
                         f"Processing {process['filename']} with {process['method']}"
                     )
+                content = files.get_content(process["filename"], raw_path)
+                if content is not None and content != "":
+                    display.info(
+                        f"Processing {process['filename']} with {process['method']}"
+                    )
                     formatted_content = format_json.split_by_line(content, process)
                     files.write(tmp_file, json.dumps(formatted_content, indent=4))
                 else:
@@ -83,7 +88,7 @@ if __name__ == "__main__":
                         f"Processing {process['filename']} with {process['method']}"
                     )
                     formatted_content = format_json.split_by_object(content)
-                    files.write(tmp_file, formatted_content)
+                    files.write(tmp_file, json.dumps(formatted_content, indent=4))
                 else:
                     display.alert(
                         f"Cannot process {process['filename']} with {process['method']}"

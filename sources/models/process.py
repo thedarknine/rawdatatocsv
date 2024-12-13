@@ -18,6 +18,8 @@ class CSVFile(BaseModel):
     main_file: str
     secondary_files: list[str]
     output: str
+    display_label: bool | None = None
+    display_count: bool | None = None
 
 
 class FormatJson(BaseModel):
