@@ -1,0 +1,52 @@
+[format_json]
+  name = "format_to_json"
+
+  [[format_json.files]]
+    filename = "app.list"
+    header_line = true
+    header_regex = '\s+\d+\s*'
+    output = "app.json"
+    method = "split_by_line"
+
+  [[format_json.files]]
+    filename = "fr1.csv"
+    output = "fr1.json"
+    method = "group_by_first"
+
+  [[format_json.files]]
+    filename = "fr2.csv"
+    output = "fr2.json"
+    method = "group_by_first"
+
+  [[format_json.files]]
+    filename = "fr3.csv"
+    output = "fr3.json"
+    method = "group_by_first"
+
+  # [[format_json.files]]
+  #   filename = "app-0412.list"
+  #   output = "app-0412.json"
+  #   method = "split_by_line"
+
+  # [[format_json.files]]
+  #   filename = "fr1-0412.list"
+  #   output = "fr1-0412.json"
+  #   method = "split_by_object"
+
+  # [[format_json.files]]
+  #   filename = "fr2-0412.list"
+  #   output = "fr2-0412.json"
+  #   method = "split_by_object"
+
+  # [[format_json.files]]
+  #   filename = "fr3-0412.list"
+  #   output = "fr3-0412.json"
+  #   method = "split_by_object"
+
+[json_to_csv]
+  name = "json_to_csv"
+  main_file = "app.json"
+  secondary_files = ["fr1.json", "fr2.json", "fr3.json"]
+  output = "app_list_installed.csv"
+  display_label = true
+  display_count = true
